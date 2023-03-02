@@ -1,0 +1,53 @@
+public interface Sanduiche {
+    public String getDescricao();
+    public double getPreco();
+}
+
+public class FrangoAssado implements Sanduiche {
+    @Override
+    public String getDescricao() {
+        return "Sanduíche de Frango Assado";
+    }
+
+    @Override
+    public double getPreco() {
+        return 4.5;
+    }
+}
+public class Pepperoni implements Sanduiche {
+    private Sanduiche sanduiche;
+    
+    public Pepperoni(Sanduiche sanduiche) {
+        this.sanduiche = sanduiche;
+    }
+
+    @Override
+    public String getDescricao() {
+        return sanduiche.getDescricao() + ", Pepperoni";
+    }
+
+    @Override
+    public double getPreco() {
+        return sanduiche.getPreco() + 0.99;
+    }
+}
+public class QueijoMussarelaRalado implements Sanduiche {
+    private Sanduiche sanduiche;
+    
+    public QueijoMussarelaRalado(Sanduiche sanduiche) {
+        this.sanduiche = sanduiche;
+    }
+
+    @Override
+    public String getDescricao() {
+        return sanduiche.getDescricao() + ", Queijo Mussarela Ralado";
+    }
+
+    @Override
+    public double getPreco() {
+        return sanduiche.getPreco() + 2.0;
+    }
+}
+Sanduiche sanduiche = new QueijoMussarelaRalado(new Pepperoni(new FrangoAssado()));
+System.out.println(sanduiche.getDescricao() + " custa $" + sanduiche.getPreco() + ".");
+Sanduíche de Frango Assado, Pepperoni, Queijo Mussarela Ralado custa $7.49.
