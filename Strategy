@@ -1,0 +1,44 @@
+from abc import ABC, abstractmethod
+
+class Strategy(ABC):
+    @abstractmethod
+    def execute(self, num1, num2):
+        pass
+
+class Soma(Strategy):
+    def execute(self, num1, num2):
+        return num1 + num2
+
+class Subtracao(Strategy):
+    def execute(self, num1, num2):
+        return num1 - num2
+
+class Multiplicacao(Strategy):
+    def execute(self, num1, num2):
+        return num1 * num2
+
+class Calculadora:
+    def __init__(self):
+        self.strategies = {
+            '+': Soma(),
+            '-': Subtracao(),
+            '*': Multiplicacao()
+        }
+        
+    def calcular(self, num1, num2, operacao):
+        strategy = self.strategies.get(operacao)
+        if strategy:
+            resultado = strategy.execute(num1, num2)
+            print(f'O resultado da operação {num1} {operacao} {num2} é {resultado}')
+        else:
+            print(f'Operação inválida: {operacao}')
+
+# Exemplo de uso da calculadora
+calc = Calculadora()
+
+num1 = int(input('Digite o primeiro número: '))
+num2 = int(input('Digite o segundo número: '))
+operacao = input('Digite a operação (+, -, *): ')
+
+calc.calcular(num1, num2, operacao)
+
