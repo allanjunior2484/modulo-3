@@ -1,0 +1,66 @@
+// Classe Pato
+public class Pato {
+    public void grasnar() {
+        System.out.println("Quack quack!");
+    }
+    
+    public void voar() {
+        System.out.println("Estou voando como um pato!");
+    }
+}
+
+// Interface Galinha
+public interface Galinha {
+    public void cacarejar();
+    public void voarCurtaDistancia();
+}
+
+// Classe GalinhaImpl
+public class GalinhaImpl implements Galinha {
+    public void cacarejar() {
+        System.out.println("Cocoricó!");
+    }
+    
+    public void voarCurtaDistancia() {
+        System.out.println("Estou voando por curta distância!");
+    }
+}
+
+// Classe AdaptadorPato
+public class AdaptadorPato implements Galinha {
+    private Pato pato;
+    
+    public AdaptadorPato(Pato pato) {
+        this.pato = pato;
+    }
+    
+    public void cacarejar() {
+        pato.grasnar();
+    }
+    
+    public void voarCurtaDistancia() {
+        pato.voar();
+    }
+}
+
+// Classe AdaptadorPatoDemo
+public class AdaptadorPatoDemo {
+    public static void main(String[] args) {
+        Pato pato = new Pato();
+        Galinha galinha = new GalinhaImpl();
+        
+        Galinha adaptadorPato = new AdaptadorPato(pato);
+        
+        System.out.println("Pato:");
+        pato.grasnar();
+        pato.voar();
+        
+        System.out.println("Galinha:");
+        galinha.cacarejar();
+        galinha.voarCurtaDistancia();
+        
+        System.out.println("Adaptador Pato:");
+        adaptadorPato.cacarejar();
+        adaptadorPato.voarCurtaDistancia();
+    }
+}
