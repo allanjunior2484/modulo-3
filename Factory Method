@@ -1,0 +1,102 @@
+
+// Interface comum aos produtos
+public interface Computer {
+    int getRAM();
+    int getHDD();
+    double getCPU();
+    String getType();
+}
+
+// Implementação do tipo PC de computador
+public class PC implements Computer {
+    private int ram;
+    private int hdd;
+    private double cpu;
+    private String type;
+
+    public PC(int ram, int hdd, double cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+        this.type = "PC";
+    }
+
+    public int getRAM() {
+        return ram;
+    }
+
+    public int getHDD() {
+        return hdd;
+    }
+
+    public double getCPU() {
+        return cpu;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String toString() {
+        return "PC RAM: " + ram + "GB, HDD: " + hdd + "GB, CPU: " + cpu + "GHz";
+    }
+}
+
+// Implementação do tipo Server de computador
+public class Server implements Computer {
+    private int ram;
+    private int hdd;
+    private double cpu;
+    private String type;
+
+    public Server(int ram, int hdd, double cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+        this.type = "Server";
+    }
+
+    public int getRAM() {
+        return ram;
+    }
+
+    public int getHDD() {
+        return hdd;
+    }
+
+    public double getCPU() {
+        return cpu;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String toString() {
+        return "Server RAM: " + ram + "GB, HDD: " + hdd + "GB, CPU: " + cpu + "GHz";
+    }
+}
+
+// Fábrica para criação de computadores
+public class ComputerFactory {
+    public static Computer createComputer(String type, int ram, int hdd, double cpu) {
+        if (type.equals("PC")) {
+            return new PC(ram, hdd, cpu);
+        } else if (type.equals("Server")) {
+            return new Server(ram, hdd, cpu);
+        } else {
+            throw new IllegalArgumentException("Tipo de computador inválido!");
+        }
+    }
+}
+
+// Exemplo de uso da fábrica
+public class Main {
+    public static void main(String[] args) {
+        Computer pc = ComputerFactory.createComputer("PC", 8, 500, 2.4);
+        System.out.println(pc);
+
+        Computer server = ComputerFactory.createComputer("Server", 32, 2000, 3.0);
+        System.out.println(server);
+    }
+}
