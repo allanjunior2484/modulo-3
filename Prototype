@@ -1,0 +1,79 @@
+// Classe abstrata Veículo
+abstract class Veiculo {
+  protected String modelo;
+  protected String marca;
+  protected String cor;
+  protected int numeroRodas;
+
+  public Veiculo(String modelo, String marca, String cor, int numeroRodas) {
+    this.modelo = modelo;
+    this.marca = marca;
+    this.cor = cor;
+    this.numeroRodas = numeroRodas;
+  }
+
+  public abstract Veiculo clone();
+
+  public abstract String represent();
+}
+
+// Subclasse Carro
+class Carro extends Veiculo {
+  private int numeroPortas;
+  private String tipoCombustivel;
+
+  public Carro(String modelo, String marca, String cor, int numeroRodas, int numeroPortas, String tipoCombustivel) {
+    super(modelo, marca, cor, numeroRodas);
+    this.numeroPortas = numeroPortas;
+    this.tipoCombustivel = tipoCombustivel;
+  }
+
+  public Veiculo clone() {
+    return new Carro(modelo, marca, cor, numeroRodas, numeroPortas, tipoCombustivel);
+  }
+
+  public String represent() {
+    return "Carro: " + modelo + ", " + marca + ", " + cor + ", " + numeroRodas + " rodas, " + numeroPortas + " portas, combustível: " + tipoCombustivel;
+  }
+}
+
+// Subclasse Moto
+class Moto extends Veiculo {
+  private String tipoFreio;
+
+  public Moto(String modelo, String marca, String cor, int numeroRodas, String tipoFreio) {
+    super(modelo, marca, cor, numeroRodas);
+    this.tipoFreio = tipoFreio;
+  }
+
+  public Veiculo clone() {
+    return new Moto(modelo, marca, cor, numeroRodas, tipoFreio);
+  }
+
+  public String represent() {
+    return "Moto: " + modelo + ", " + marca + ", " + cor + ", " + numeroRodas + " rodas, freio: " + tipoFreio;
+  }
+}
+
+// Classe Aplicação
+class Aplicacao {
+  public static void main(String[] args) {
+    Veiculo[] veiculos = new Veiculo[6];
+
+    // Criação dos veículos
+    veiculos[0] = new Carro("Fiesta", "Ford", "Prata", 4, 4, "Gasolina");
+    veiculos[1] = new Moto("CB 500", "Honda", "Vermelha", 2, "Disco");
+    veiculos[2] = new Carro("Gol", "Volkswagen", "Azul", 4, 2, "Etanol");
+    veiculos[3] = new Moto("NXR Bros", "Honda", "Preto", 2, "Tambor");
+    veiculos[4] = new Carro("Uno", "Fiat", "Branco", 4, 2, "Gasolina");
+    veiculos[5] = new Moto("MT-03", "Yamaha", "Azul", 2, "Disco");
+
+    // Clone dos veículos
+    Veiculo[] veiculosClone = new Veiculo[6];
+    for (int i = 0; i < veiculos.length; i++) {
+      veiculosClone[i] = veiculos[i].clone();
+    }
+
+    // Impressão dos veículos clonados
+    for (int i = 0; i < veiculosClone.length; i++) {
+
