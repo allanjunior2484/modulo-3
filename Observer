@@ -1,0 +1,80 @@
+
+class Editor:
+    def __init__(self):
+        self.observers = set()
+
+    def register(self, observer):
+        self.observers.add(observer)
+
+    def unregister(self, observer):
+        self.observers.remove(observer)
+
+    def notify(self):
+        for observer in self.observers:
+            observer.update(self)
+
+
+class TextEditor(Editor):
+    def __init__(self):
+        super().__init__()
+        self.lines = []
+
+    def insertLine(self, lineNumber, text):
+        if lineNumber < 1 or lineNumber > len(self.lines) + 1:
+            raise ValueError("Line number out of range")
+        self.lines.insert(lineNumber - 1, text)
+        self.notify()
+
+    def removeLine(self, lineNumber):
+        if lineNumber < 1 or lineNumber > len(self.lines):
+            raise ValueError("Line number out of range")
+        del self.lines[lineNumber - 1]
+        self.notify()
+
+
+class FileSaver:
+    def __init__(self, textEditor):
+        self.textEditor = textEditor
+        self.textEditor.register(self)
+
+    def update(self, subject):
+        if isinstance(subject, TextEditor) and subject is self.textEditor:
+            self.saveToFile()
+
+    def saveToFile(self):
+        with open("text_file.txt", "w") as file:
+            file.writelines(self.textEditor.lines)
+
+
+class ConsolePrinter:
+    def __init__(self, textEditor):
+        self.textEditor = textEditor
+        self.textEditor.register(self)
+
+    def update(self, subject):
+        if isinstance(subject, TextEditor) and subject is self.textEditor:
+            self.printToConsole()
+
+    def printToConsole(self):
+        for line in self.textEditor.lines:
+            print(line)
+
+
+def main():
+    textEditor = TextEditor()
+    FileSaver(textEditor)
+    ConsolePrinter(textEditor)
+
+    textEditor.notifyObservers("open")
+
+    while True:
+        line = input()
+        if line == "EOF":
+            break
+        textEditor.insertLine(len(textEditor.lines) + 1, line)
+
+    textEditor.notifyObservers("save")
+
+
+if __name__ == "__main__":
+    main()
